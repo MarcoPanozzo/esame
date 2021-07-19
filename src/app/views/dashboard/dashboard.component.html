@@ -1,0 +1,38 @@
+<div class="card">
+    
+  <h1 style="text-align: center;padding: 6px;margin: 0;">Lista dei viaggi</h1>
+
+  <div *ngIf="errors.length === 0">
+
+    <p-table #dt 
+      [value]="viaggi" 
+      [paginator]="true" 
+      [lazy]="true"
+      [totalRecords]="totalRecords"
+      [rows]="resultsPerPage"
+      [loading]="loading"
+      [responsive]="true"
+      [(first)]="first"
+      (onLazyLoad)="load($event)" 
+      (onPage)="onPage($event)"
+      [dataKey]="rowId">
+  
+      <ng-template pTemplate="header">
+          <tr>
+              <th *ngFor="let col of columns">{{col.header}}</th>
+              <th>Dettaglio</th>
+          </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-viaggio>
+          <tr>
+              <td *ngFor="let col of columns">{{viaggio[col.field]}}</td>
+              <td>
+                <p-button label="Dettaglio" (click)="onClick(viaggio)"></p-button>
+              </td>
+          </tr>
+      </ng-template>
+    </p-table>
+
+  </div>
+  
+</div>

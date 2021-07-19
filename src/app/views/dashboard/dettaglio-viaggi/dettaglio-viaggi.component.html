@@ -1,0 +1,60 @@
+<div class="card">
+    
+    <h1 style="text-align: center;padding: 6px;margin: 0;">Dettaglio del viaggio</h1>
+  
+    <div *ngIf="errors.length === 0">
+  
+      <p-table #dt 
+        [value]="dateViaggi"
+        [lazy]="true"
+        [loading]="loading"
+        [responsive]="true"
+        [(first)]="first"
+        (onLazyLoad)="load($event)" 
+        (onPage)="onPage($event)"
+        [dataKey]="rowId">
+    
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="width: 3rem"></th>
+                <th *ngFor="let col of columns">{{col.header}}</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-tappa let-expanded="expanded">
+            <tr>
+              <td>
+                <button type="button" pButton pRipple [pRowToggler]="tappa" class="p-button-text p-button-rounded p-button-plain" [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
+              </td>
+              <td *ngFor="let col of columns">{{col.table === "dateViaggi" ? tappa[col.field] : tappa.tappa[col.field]}}</td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="rowexpansion" let-tappa>
+          <tr>
+              <td colspan="4">
+                  <div class="p-p-3">
+                      <p-table [value]="tappa.tappa.pacchetti" dataKey="pacchettoId">
+                          <ng-template pTemplate="header">
+                            <tr>
+                              <th *ngFor="let col of columnsPacchetti">{{col.header}}</th>
+                          </tr>
+                          </ng-template>
+                          <ng-template pTemplate="body" let-pacchetto>
+                            <tr>
+                              <td *ngFor="let col of columnsPacchetti">{{pacchetto[col.field]}}</td>
+                            </tr>
+                          </ng-template>
+                          <ng-template pTemplate="emptymessage">
+                              <tr>
+                                  <td colspan="6">Non ci sono pacchetti</td>
+                              </tr>
+                          </ng-template>
+                      </p-table>
+                  </div>
+              </td>
+          </tr>
+      </ng-template>
+      </p-table>
+  
+    </div>
+    
+  </div>
